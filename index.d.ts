@@ -44,6 +44,14 @@ declare namespace serverlessMysql {
      */
     maxConnsFreq?: number
     /**
+     * Integer  The number of max total connections, which will be replaced @@max_connections value.
+     */
+     maxConnsTotal?: number
+    /**
+     * Integer  The number of max used connections, which will be replaced @@max_user_connections value.
+     */
+     maxConnsUsed?: number
+    /**
      * Integer  Maximum number of times to retry a connection before throwing an error.  50
      */
     maxRetries?: number

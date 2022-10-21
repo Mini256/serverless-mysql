@@ -217,6 +217,17 @@ module.exports = (params) => {
   // Get the max connections (either for this user or total)
   const getMaxConnections = async () => {
 
+    // If specify max connections by config.
+    if (maxConnsTotal >= 0 && maxConnsUsed >= 0) {
+      _maxConns = {
+        total: maxConnsTotal,
+        userLimit: maxConnsUsed,
+        updated: Date.now()
+      }
+  
+      return _maxConns;
+    }
+
     // If cache is expired
     if (Date.now()-_maxConns.updated > maxConnsFreq) {
 
@@ -367,6 +378,8 @@ module.exports = (params) => {
   zombieMaxTimeout = Number.isInteger(cfg.zombieMaxTimeout) ? cfg.zombieMaxTimeout : 60*15 // default to 15 minutes
   maxConnsFreq = Number.isInteger(cfg.maxConnsFreq) ? cfg.maxConnsFreq : 15*1000 // default to 15 seconds
   usedConnsFreq = Number.isInteger(cfg.usedConnsFreq) ? cfg.usedConnsFreq : 0 // default to 0 ms
+  maxConnsTotal = Number.isInteger(cfg.maxConnsTotal) ? cfg.maxConnsTotal : -1
+  maxConnsUsed = Number.isInteger(cfg.maxConnsUsed) ? cfg.maxConnsUsed : -1
 
   // Event handlers
   onConnect = typeof cfg.onConnect === 'function' ? cfg.onConnect : () => {}
